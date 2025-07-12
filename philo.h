@@ -46,8 +46,7 @@ typedef struct s_data
 long long	get_timestamp(void);
 void		advanced_usleep(long long duration_time, t_data *data);
 void		print_status(t_philo *philo, char *msg);
-int			ft_atoi(const char *str);
-
+int         ft_atoi(char *str);
 void	    *philos_life_cycle(void *arg);
 void	*monitor_philos(void *arg);
 

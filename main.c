@@ -59,14 +59,14 @@ int main(int argc, char **argv)
 
 	if (validate_arguments(argc, argv) != 0)
 		return 1;
-	if (init_data(&data, argc, argv) != 0)
-		return 1;
-	if (init_philos(&data) != 0)
+	if (init_data(&data, argv, argc) != 0)
 		return 1;
 	if (init_forks(&data) != 0)
 		return 1;
+	if (init_philos(&data) != 0)
+		return 1;
 	if (start_simulation(&data) != 0)
 		return 1;
-	cleanup(&data);
+
     return 0;
 }

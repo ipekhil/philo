@@ -49,17 +49,19 @@ void	*monitor_philos(void *arg)
 		i = 0;
 		while (i < data->philo_count)
 		{
-			pthread_mutex_lock(&data->philos[i].last_meal_time);
-			if(get_timestamp() - data->philos[i].last_meal_time >= data->time_to_die) // > or >= ?
+			pthread_mutex_lock(&data->philos[i].meal_lock);
+			if(get_timestamp() - data->philos[i].last_meal_time >= data->time_to_die)
 			{
 				data->dead_flag = true;
 				pthread_mutex_lock(&data->print_mutex);
 				printf("%lld %d died\n", get_timestamp() - data->start_time, data->philos[i].id);
 				pthread_mutex_unlock(&data->print_mutex);
+				pthread_mutex_unlock(&data->philos[i].meal_lock);
 				return (NULL);
 			}
-			pthread_mutex_unlock(&data->philos[i].last_meal_time);
+			pthread_mutex_unlock(&data->philos[i].meal_lock);
 			i++;
 		}	
 	}
+	return (NULL);
 }
