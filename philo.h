@@ -44,9 +44,16 @@ typedef struct s_data
 }	t_data;
 
 long long	get_timestamp(void);
-void		custom_usleep(long long ms);
+void		advanced_usleep(long long duration_time, t_data *data);
 void		print_status(t_philo *philo, char *msg);
 int			ft_atoi(const char *str);
-int	error_exit(t_data *data, char *msg, int exit_code);
+
+void	    *philos_life_cycle(void *arg);
+void	*monitor_philos(void *arg);
+
+int	init_data(t_data *data,char **argv, int argc);
+int	init_philos(t_data *data);
+int	init_forks(t_data *data)
+;
 
 #endif

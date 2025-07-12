@@ -21,15 +21,21 @@ int	ft_atoi(char *str)
 	return ((int)result);
 }
 
-int	error_exit(t_data *data, char *msg, int exit_code)
+long long	get_timestamp(void)
 {
-	if (msg)
-	{
-		pthread_mutex_lock(&data->print_mutex);
-		printf("%s\n", msg);
-		pthread_mutex_unlock(&data->print_mutex);
-	}
-	if (data)
-		cleanup(data);
-	return (exit_code);
+	struct timeval	time;
+	long long		timestamp;
+
+	gettimeofday(&time, NULL);
+	timestamp = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (timestamp);
+}
+
+void		advanced_usleep(long long duration_time, t_data *data)
+{
+	long long	start_time;
+
+	start_time = get_timestamp();
+	while (!data->dead_flag && (get_timestamp() - start_time < duration_time))
+		usleep(100);
 }
