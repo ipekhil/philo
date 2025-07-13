@@ -43,22 +43,66 @@ int	start_simulation(t_data *data)
 	data->start_time = get_timestamp();
 	while (i < data->philo_count)
 	{
+		pthread_mutex_lock(&data->philos[i].meal_lock);
 		data->philos[i].last_meal_time = data->start_time;
-		if (pthread_create(&data->philos[i].thread_id, NULL, philos_life_cycle, &data->philos[i]) != 0)
-			return (1);
+		pthread_mutex_unlock(&data->philos[i].meal_lock);
+		i++;
+	}
+	i = 0;
+	while (i < data->philo_count)
+	{
+		pthread_create(&data->philos[i].thread_id, NULL, philos_life_cycle, &data->philos[i]);
+		usleep(100);
 		i++;
 	}
 	if (pthread_create(&monitor_thread, NULL, monitor_philos, data) != 0)
 		return (1);
-	pthread_detach(monitor_thread);
+	i = 0;
+	while (i < data->philo_count)
+	{
+		pthread_join(data->philos[i].thread_id, NULL);
+		i++;
+	}
+	pthread_join(monitor_thread, NULL);
 	return (0);
 }
+void	clean_program(t_data *data)
+{
+	int i;
+
+	if (data->forks)
+	{
+		i = 0;
+		while (i < data->philo_count)
+		{
+			pthread_mutex_destroy(&data->forks[i]);
+			i++;
+		}
+		free(data->forks);
+	}
+	if (data->philos)
+	{
+		i = 0;
+		while (i < data->philo_count)
+		{
+			pthread_mutex_destroy(&data->philos[i].meal_lock);
+			i++;
+		}
+		free(data->philos);
+	}
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->death_check_mutex);
+}
+
 int main(int argc, char **argv)
 {
 	t_data	data;
 
 	if (validate_arguments(argc, argv) != 0)
+	{
+		printf("Error: Invalid arguments\n");
 		return 1;
+	}
 	if (init_data(&data, argv, argc) != 0)
 		return 1;
 	if (init_forks(&data) != 0)
@@ -67,6 +111,7 @@ int main(int argc, char **argv)
 		return 1;
 	if (start_simulation(&data) != 0)
 		return 1;
-
+	clean_program(&data);
     return 0;
 }
+

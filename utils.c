@@ -36,6 +36,35 @@ void		advanced_usleep(long long duration_time, t_data *data)
 	long long	start_time;
 
 	start_time = get_timestamp();
-	while (!data->dead_flag && (get_timestamp() - start_time < duration_time))
+	while ((get_timestamp() - start_time < duration_time))
+	{
+		if (control_dead(data))
+			return ;
 		usleep(100);
+	}
+}
+
+int	check_all_eaten(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->philo_count)
+	{
+		pthread_mutex_lock(&data->philos[i].meal_lock);
+		if (data->philos[i].meals_eaten < data->must_eat)
+		{
+			pthread_mutex_unlock(&data->philos[i].meal_lock);
+			return (0);
+		}
+		pthread_mutex_unlock(&data->philos[i].meal_lock);
+		i++;
+	}
+	pthread_mutex_lock(&data->death_check_mutex);
+	data->dead_flag = true;
+	pthread_mutex_unlock(&data->death_check_mutex);
+	pthread_mutex_lock(&data->print_mutex);
+	printf("hepsi yedi");
+	pthread_mutex_unlock(&data->print_mutex);
+	return (1);
 }

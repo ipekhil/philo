@@ -52,7 +52,10 @@ void	*monitor_philos(void *arg);
 
 int	init_data(t_data *data,char **argv, int argc);
 int	init_philos(t_data *data);
-int	init_forks(t_data *data)
-;
+int	init_forks(t_data *data);
+
+
+bool	control_dead(t_data *data);
+int	check_all_eaten(t_data *data);
 
 #endif
