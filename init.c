@@ -57,12 +57,14 @@ int	init_philos(t_data *data)
 		pthread_mutex_init(&data->philos[i].meal_lock, NULL);
 		data->philos[i].id = i + 1;
 		data->philos[i].meals_eaten = 0;
-		pthread_mutex_lock(&data->philos[i].meal_lock);
-		data->philos[i].last_meal_time = get_timestamp();
-		pthread_mutex_unlock(&data->philos[i].meal_lock);
 		data->philos[i].data = data;
 		data->philos[i].left_fork = &data->forks[i];
 		data->philos[i].right_fork = &data->forks[(i + 1) % data->philo_count];
+
+				printf("Philo %d => left_fork: %p | right_fork: %p\n",
+			data->philos[i].id,
+			(void *)data->philos[i].left_fork,
+			(void *)data->philos[i].right_fork);
 		i++;
 	}
 	return (0);

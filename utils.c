@@ -63,8 +63,5 @@ int	check_all_eaten(t_data *data)
 	pthread_mutex_lock(&data->death_check_mutex);
 	data->dead_flag = true;
 	pthread_mutex_unlock(&data->death_check_mutex);
-	pthread_mutex_lock(&data->print_mutex);
-	printf("hepsi yedi");
-	pthread_mutex_unlock(&data->print_mutex);
 	return (1);
 }
