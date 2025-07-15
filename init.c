@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiipek <hiipek@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/13 20:14:10 by hiipek            #+#    #+#             */
+/*   Updated: 2025/07/14 19:14:01 by hiipek           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int	init_data(t_data *data,char **argv, int argc)
+int	init_data(t_data *data, char **argv, int argc)
 {
 	if (!data)
 		return (1);
@@ -21,7 +33,7 @@ int	init_data(t_data *data,char **argv, int argc)
 
 int	init_forks(t_data *data)
 {
-	int i;
+	int	i;
 
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_count);
 	if (!data->forks)
@@ -60,11 +72,6 @@ int	init_philos(t_data *data)
 		data->philos[i].data = data;
 		data->philos[i].left_fork = &data->forks[i];
 		data->philos[i].right_fork = &data->forks[(i + 1) % data->philo_count];
-
-				printf("Philo %d => left_fork: %p | right_fork: %p\n",
-			data->philos[i].id,
-			(void *)data->philos[i].left_fork,
-			(void *)data->philos[i].right_fork);
 		i++;
 	}
 	return (0);

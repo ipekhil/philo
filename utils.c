@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hilalipek <hilalipek@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/13 20:14:04 by hiipek            #+#    #+#             */
+/*   Updated: 2025/07/15 02:42:52 by hilalipek        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	ft_atoi(char *str)
@@ -31,7 +43,7 @@ long long	get_timestamp(void)
 	return (timestamp);
 }
 
-void		advanced_usleep(long long duration_time, t_data *data)
+void	advanced_usleep(long long duration_time, t_data *data)
 {
 	long long	start_time;
 
@@ -46,7 +58,7 @@ void		advanced_usleep(long long duration_time, t_data *data)
 
 int	check_all_eaten(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->philo_count)
@@ -60,8 +72,16 @@ int	check_all_eaten(t_data *data)
 		pthread_mutex_unlock(&data->philos[i].meal_lock);
 		i++;
 	}
-	pthread_mutex_lock(&data->death_check_mutex);
-	data->dead_flag = true;
-	pthread_mutex_unlock(&data->death_check_mutex);
 	return (1);
+}
+
+void	print_status(t_philo *philo, char *msg)
+{
+	long	now;
+
+	pthread_mutex_lock(&philo->data->print_mutex);
+	now = get_timestamp() - philo->data->start_time;
+	if (!control_dead(philo->data))
+		printf("%ld %d %s\n", now, philo->id, msg);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 }

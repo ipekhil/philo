@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hiipek <hiipek@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/13 20:14:19 by hiipek            #+#    #+#             */
+/*   Updated: 2025/07/13 21:25:34 by hiipek           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -48,7 +60,9 @@ void		advanced_usleep(long long duration_time, t_data *data);
 void		print_status(t_philo *philo, char *msg);
 int         ft_atoi(char *str);
 void	    *philos_life_cycle(void *arg);
-void	*monitor_philos(void *arg);
+void        *monitor_philos(void *arg);
+void        print_status(t_philo *philo, char *msg);
+
 
 int	init_data(t_data *data,char **argv, int argc);
 int	init_philos(t_data *data);
