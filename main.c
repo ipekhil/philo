@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hiipek <hiipek@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hilalipek <hilalipek@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 20:14:13 by hiipek            #+#    #+#             */
-/*   Updated: 2025/07/13 21:24:49 by hiipek           ###   ########.fr       */
+/*   Updated: 2025/07/16 02:14:44 by hilalipek        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int	is_valid_num(char *str)
-{
-	int	i;
-
-	if (!str || !*str)
-		return (1);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static int	validate_arguments(int argc, char **argv)
 {
@@ -47,9 +31,9 @@ static int	validate_arguments(int argc, char **argv)
 	return (0);
 }
 
-int	start_simulation(t_data *data)
+static int	start_simulation(t_data *data)
 {
-	int	i;
+	int			i;
 	pthread_t	monitor_thread;
 
 	i = -1;
@@ -75,7 +59,7 @@ int	start_simulation(t_data *data)
 	return (0);
 }
 
-void	clean_program(t_data *data)
+static void	clean_program(t_data *data)
 {
 	int	i;
 

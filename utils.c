@@ -6,11 +6,27 @@
 /*   By: hilalipek <hilalipek@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 20:14:04 by hiipek            #+#    #+#             */
-/*   Updated: 2025/07/15 02:42:52 by hilalipek        ###   ########.fr       */
+/*   Updated: 2025/07/16 03:27:55 by hilalipek        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	is_valid_num(char *str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return (1);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	ft_atoi(char *str)
 {
@@ -54,25 +70,6 @@ void	advanced_usleep(long long duration_time, t_data *data)
 			return ;
 		usleep(100);
 	}
-}
-
-int	check_all_eaten(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->philo_count)
-	{
-		pthread_mutex_lock(&data->philos[i].meal_lock);
-		if (data->philos[i].meals_eaten < data->must_eat)
-		{
-			pthread_mutex_unlock(&data->philos[i].meal_lock);
-			return (0);
-		}
-		pthread_mutex_unlock(&data->philos[i].meal_lock);
-		i++;
-	}
-	return (1);
 }
 
 void	print_status(t_philo *philo, char *msg)
